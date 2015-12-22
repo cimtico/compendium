@@ -129,6 +129,12 @@ describe Compendium::Query do
       Compendium::Presenters::Table.should_receive(:new).with(template, subject).and_return(double("Presenter").as_null_object)
       subject.render_table(template)
     end
+
+    it "should set a custom css class if provided" do
+      subject.stub(empty?: false)
+      Compendium::Presenters::Table.should_receive(:new).and_return(double("Presenter").as_null_object)
+      expect(subject.render_table(template, {class: 'table-class'})).to have_content('table-class')
+    end
   end
 
   describe "#url" do

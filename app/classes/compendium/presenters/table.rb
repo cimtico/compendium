@@ -3,9 +3,9 @@ module Compendium::Presenters
     attr_reader :records, :totals
 
     def initialize(*args)
-      super
-
       @options = args.extract_options!
+      super(*args)
+
       @records = results.records
       @totals = @records.pop if has_totals_row?
 
