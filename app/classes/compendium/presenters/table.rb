@@ -2,9 +2,10 @@ module Compendium::Presenters
   class Table < Query
     attr_reader :records, :totals
 
-    def initialize(*)
+    def initialize(*args)
       super
 
+      @options = args.extract_options!
       @records = results.records
       @totals = @records.pop if has_totals_row?
 
@@ -13,7 +14,8 @@ module Compendium::Presenters
     end
 
     def render
-      content_tag(:table, class: 'results') do
+      css_class = @options[:class] || 'results'
+      content_tag(:table, class: css_class) do
         table = ActiveSupport::SafeBuffer.new
         table << content_tag(:thead, build_heading_row)
         table << content_tag(:tbody) do
